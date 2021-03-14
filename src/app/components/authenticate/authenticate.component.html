@@ -1,0 +1,42 @@
+
+<div class="home_container">
+
+    <ng-container *ngIf="apiResponse.success">
+        <div class="alert alert-success text-center" role="alert">
+            Success! Your email has been verified.
+        </div>
+    </ng-container>
+    <ng-container *ngFor="let error of apiResponse.errors">
+        <div class="alert alert-danger text-center" role="alert">
+            {{ error }}
+        </div>
+    </ng-container>
+
+    <div class="w-75 pt-5 d-flex m-auto">
+        <div class="w-25">
+            <img class="w-100" src="../../../assets/images/mail.png" alt="mail">
+        </div>
+        <div class="w-75 px-5 py-5">
+            <h3>Two Factor Authentication</h3>
+            <p>
+                A verification code has been sent to your email <strong>ash*******@gmail.com</strong> <br>
+            </p>
+            <p>    
+                This code will be valid for 15 minutes.
+            </p>
+            <form [formGroup]="authenticationForm" (ngSubmit)="verifyCode()">
+                <div class="input-group pr-5">
+                    <span class="input-group-text key-icon pl-4">	</span>
+                    <input formControlName="code" type="text" class="form-control d-inline border-start-0" id="inputPassword1">
+                    <button class="d-inline px-5 btn btn-warning verify-button" [disabled]="!authenticationForm.valid || apiResponse.success" type="submit" > 
+                        <strong>Verify</strong>
+                    </button>
+                </div>
+                <span *ngIf="!authenticationForm.get('code').valid && authenticationForm.get('code').touched" class="text-muted d-block">
+                    Invalid code length. Expected length of: 6
+                </span> 
+            </form>
+            <div class="mt-3"><button class="btn btn-link" [routerLink]='["/"]'>Cancel</button></div>
+        </div>
+    </div>
+</div>
